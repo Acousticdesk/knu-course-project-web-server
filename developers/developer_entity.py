@@ -5,5 +5,5 @@ class Developer:
     def get_all(self):
         result = set()
         for apartment in self.dataset:
-            result.add(apartment['developer'])
+            result.add(apartment.get('developer'))
         return result

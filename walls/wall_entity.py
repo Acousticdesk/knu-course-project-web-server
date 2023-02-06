@@ -5,5 +5,5 @@ class Wall:
     def get_all(self):
         result = set()
         for apartment in self.dataset:
-            result.add(apartment['attributes']['walls'])
+            result.add(apartment.get('attributes', {}).get('walls'))
         return result

@@ -5,5 +5,5 @@ class ConstructionTechnology:
     def get_all(self):
         result = set()
         for apartment in self.dataset:
-            result.add(apartment['attributes']['construction_technology'])
+            result.add(apartment.get('attributes', {}).get('construction_technology'))
         return result

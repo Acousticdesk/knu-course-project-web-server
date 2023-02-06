@@ -5,5 +5,5 @@ class ProtectedArea:
     def get_all(self):
         result = set()
         for apartment in self.dataset:
-            result.add(apartment['attributes']['protected_area'])
+            result.add(apartment.get('attributes', {}).get('protected_area'))
         return result

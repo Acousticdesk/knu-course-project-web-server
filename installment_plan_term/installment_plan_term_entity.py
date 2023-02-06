@@ -5,5 +5,5 @@ class InstallmentPlanTerm:
     def get_all(self):
         result = set()
         for apartment in self.dataset:
-            result.add(apartment['financials']['installmentPlanTerm'])
+            result.add(apartment.get('financials', {}).get('installmentPlanTerm'))
         return result

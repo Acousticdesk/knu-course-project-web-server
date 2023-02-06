@@ -5,5 +5,5 @@ class Heating:
     def get_all(self):
         result = set()
         for apartment in self.dataset:
-            result.add(apartment['attributes']['heating'])
+            result.add(apartment.get('attributes', {}).get('heating'))
         return result

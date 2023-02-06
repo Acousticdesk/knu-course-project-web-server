@@ -24,12 +24,6 @@ def get_residences():
     return list(residence.get_all())
 
 
-@app.route('/area')
-def get_area():
-    areas = Area(real_estate)
-    return list(areas.get_all())
-
-
 @app.route('/construction_technologies')
 def get_construction_technologies():
     construction_technologies = ConstructionTechnology(real_estate)
@@ -51,13 +45,13 @@ def get_heating():
 @app.route('/installment_plan')
 def get_installment_plan():
     installment_plan = InstallmentPlan(real_estate)
-    return list(installment_plan.get_all())
+    return list(filter(None, list(installment_plan.get_all())))
 
 
 @app.route('/installment_plan_term')
 def get_installment_plan_term():
     installment_plan_term = InstallmentPlanTerm(real_estate)
-    return list(installment_plan_term.get_all())
+    return list(filter(None, list(installment_plan_term.get_all())))
 
 
 @app.route('/insulation')
@@ -75,7 +69,7 @@ def get_parking():
 @app.route('/protected_area')
 def get_protected_area():
     protected_area = ProtectedArea(real_estate)
-    return list(protected_area.get_all())
+    return list(filter(None, list(protected_area.get_all())))
 
 
 @app.route('/renovation')
@@ -87,7 +81,7 @@ def get_renovation():
 @app.route('/residence_classes')
 def get_residence_classes():
     residence_classes = ResidenceClass(real_estate)
-    return list(residence_classes.get_all())
+    return list(filter(None, list(residence_classes.get_all())))
 
 
 @app.route('/rooms')
