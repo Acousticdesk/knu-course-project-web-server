@@ -1,5 +1,6 @@
 from flask import Flask, request
 import numpy as np
+from flask_cors import CORS
 from construction_technologies.construction_technology_entity import ConstructionTechnology
 from developers.developer_entity import Developer
 from heating.heating_entity import Heating
@@ -18,6 +19,7 @@ from model.scaler import scaler_x, scaler_y
 from model.model import model
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/residences')
