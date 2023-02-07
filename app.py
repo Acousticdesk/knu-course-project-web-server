@@ -16,7 +16,6 @@ from residences.residence_entity import Residence
 from dataset import real_estate
 from model.scaler import scaler_x, scaler_y
 from model.model import model
-import json
 
 app = Flask(__name__)
 
@@ -103,20 +102,20 @@ def get_prediction():
     body = request.json
 
     X = np.array([[
-        body['residential_complex'],
-        body['developer'],
-        body['building_class'],
-        body['construction_technology'],
-        body['wall'],
-        body['insulation'],
-        body['heating'],
-        body['renovation_sate'],
-        body['protected_area'],
-        body['parking'],
-        body['installment_plan'],
-        body['installment_plan_term'],
-        body['area'],
-        body['rooms']
+        Residence.map_value_to_numeric(body['residential_complex']),
+        Developer.map_value_to_numeric(body['developer']),
+        ResidenceClass.map_value_to_numeric(body['building_class']),
+        ConstructionTechnology.map_value_to_numeric(body['construction_technology']),
+        Wall.map_value_to_numeric(body['wall']),
+        Insulation.map_value_to_numeric(body['insulation']),
+        Heating.map_value_to_numeric(body['heating']),
+        Renovation.map_value_to_numeric(body['renovation_sate']),
+        ProtectedArea.map_value_to_numeric(body['protected_area']),
+        int(bool(body['parking'])),
+        float(body['installment_plan']),
+        int(body['installment_plan_term']),
+        float(body['area']),
+        int(body['rooms'])
     ]])
 
     X_normalized = scaler_x.transform(X)
@@ -124,8 +123,6 @@ def get_prediction():
     y_hat = model.predict(X_normalized.reshape(1, -1))
 
     uah = scaler_y.inverse_transform(y_hat.reshape(1, -1))[0][-1]
-
-    print(uah, 'the prediction')
 
     return {'prediction': str(uah)}
 
