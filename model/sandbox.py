@@ -10,4 +10,3 @@ y_hat = model.predict(X_to_predict_normalized.reshape(1, -1))
 
 uah = scaler_y.inverse_transform(y_hat.reshape(1, -1))[0][-1]
 print(f'Вартість нерухомості: {uah:,} грн')
-

@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, request
+import numpy as np
 from construction_technologies.construction_technology_entity import ConstructionTechnology
 from developers.developer_entity import Developer
 from heating.heating_entity import Heating
@@ -13,6 +14,9 @@ from rooms.room_entity import Room
 from walls.wall_entity import Wall
 from residences.residence_entity import Residence
 from dataset import real_estate
+from model.scaler import scaler_x, scaler_y
+from model.model import model
+import json
 
 app = Flask(__name__)
 
@@ -94,6 +98,36 @@ def get_walls():
     walls = Wall(real_estate)
     return list(walls.get_all())
 
+@app.route('/prediction', methods=['POST'])
+def get_prediction():
+    body = request.json
+
+    X = np.array([[
+        body['residential_complex'],
+        body['developer'],
+        body['building_class'],
+        body['construction_technology'],
+        body['wall'],
+        body['insulation'],
+        body['heating'],
+        body['renovation_sate'],
+        body['protected_area'],
+        body['parking'],
+        body['installment_plan'],
+        body['installment_plan_term'],
+        body['area'],
+        body['rooms']
+    ]])
+
+    X_normalized = scaler_x.transform(X)
+
+    y_hat = model.predict(X_normalized.reshape(1, -1))
+
+    uah = scaler_y.inverse_transform(y_hat.reshape(1, -1))[0][-1]
+
+    print(uah, 'the prediction')
+
+    return {'prediction': str(uah)}
 
 if __name__ == '__main__':
     app.run()
