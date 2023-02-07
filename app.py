@@ -1,5 +1,4 @@
 from flask import Flask
-from area.area_entity import Area
 from construction_technologies.construction_technology_entity import ConstructionTechnology
 from developers.developer_entity import Developer
 from heating.heating_entity import Heating
