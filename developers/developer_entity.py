@@ -13,4 +13,4 @@ class Developer:
 
     @staticmethod
     def map_value_to_numeric(value):
-        return ClassificationToNumeric('heating/mapping.json').get_numeric(value)
+        return ClassificationToNumeric('developers/mapping.json').get_numeric(value)

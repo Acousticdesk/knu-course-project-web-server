@@ -13,4 +13,4 @@ class ConstructionTechnology:
 
     @staticmethod
     def map_value_to_numeric(value):
-        return ClassificationToNumeric('construction_technologies/technologies.json').get_numeric(value)
+        return ClassificationToNumeric('construction_technologies/mapping.json').get_numeric(value)
