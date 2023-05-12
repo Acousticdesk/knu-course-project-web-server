@@ -1,5 +1,6 @@
-from tensorflow import keras
+import pandas as pd
 import os
 
-model_path = os.path.join(os.getcwd(), 'model', 'real-estate-model-07-02-23')
-model = keras.models.load_model(model_path)
+path = os.path.join(os.getcwd(), 'model', 'lm_HPRICE7.pickle')
+# path = './lm_HPRICE7.pickle'
+lm_HPRICE7 = pd.read_pickle(path)
