@@ -1,7 +1,7 @@
 from flask import Flask, request
 import numpy as np
 from flask_cors import CORS
-from model.model import lm_HPRICE7
+from price_evaluation_model.model import lm_HPRICE7
 import math
 
 app = Flask(__name__)
