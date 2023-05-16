@@ -15,6 +15,7 @@ app = Flask(__name__)
 CORS(app)
 
 trans_memo = {}
+directions_memo = {}
 
 @app.route('/class-prediction', methods=['POST'])
 def get_class_prediction():
@@ -56,7 +57,13 @@ def get_price_prediction():
         'Подільський': 2106,
     }
 
-    minutes_to_city_center = get_directions_to_city_center_in_minutes(body['address'])
+    minutes_to_city_center = directions_memo.get(body['address'], False)
+
+    if not minutes_to_city_center:
+        print('address was not found in memo, calculating...')
+        minutes_to_city_center = get_directions_to_city_center_in_minutes(body['address'])
+        directions_memo[body['address']] = minutes_to_city_center
+
     print(minutes_to_city_center, 'walking distance to city center in minutes')
 
     real_estate = {
