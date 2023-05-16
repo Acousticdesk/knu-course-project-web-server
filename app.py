@@ -1,10 +1,15 @@
 from flask import Flask, request
 import numpy as np
 from flask_cors import CORS
-from price_evaluation_model.model import lm_HPRICE7
+from price_evaluation_model.model import lm_HPRICE10
 from class_evaluation_model.model import class_evaluation_model
 from translator.translator import translate_text
 import math
+from directions.directions import get_directions_to_city_center_in_minutes
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
@@ -38,7 +43,7 @@ def get_class_prediction():
 def get_price_prediction():
     body = request.json
 
-    crimeStatisticsPerDistrict = {
+    crime_per_district = {
         'Шевченківський': 4634,
         'Дніпровський': 3939,
         "Солом'янський": 3860,
@@ -51,17 +56,21 @@ def get_price_prediction():
         'Подільський': 2106,
     }
 
+    minutes_to_city_center = get_directions_to_city_center_in_minutes(body['address'])
+    print(minutes_to_city_center, 'walking distance to city center in minutes')
+
     real_estate = {
         'logarea': np.log(body['area']),
         'rooms': body['rooms'],
-        'ceilingHeight': body['ceilingHeight'],
-        'numApartmentsTotal': body['numApartmentsTotal'],
-        'floor': body['floor'],
-        'crimeRateInDistrict': crimeStatisticsPerDistrict.get(body['district'], 3000),
-        'predictedClass': body['predictedClass']
+        # 'ceilingHeight': body['ceilingHeight'],
+        # 'numApartmentsTotal': body['numApartmentsTotal'],
+        # 'floor': body['floor'],
+        'crimeRateInDistrict': crime_per_district.get(body['district'], 3000),
+        'predictedClass': body['predictedClass'],
+        'minutesToCityCenter': minutes_to_city_center
     }
 
-    logprice_predicted = lm_HPRICE7.predict(real_estate).values[0]
+    logprice_predicted = lm_HPRICE10.predict(real_estate).values[0]
 
     predicted_price = math.exp(logprice_predicted)
     price_formatted = "{:,}".format(round(predicted_price))

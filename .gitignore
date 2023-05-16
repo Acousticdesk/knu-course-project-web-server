@@ -4,3 +4,4 @@ __pycache__
 class_evaluation_model/class_evaluation_model
 .DS_Store
 venv
+.env

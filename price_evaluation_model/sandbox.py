@@ -1,4 +1,4 @@
-from model import lm_HPRICE7
+from model import lm_HPRICE10
 import math
 
 sample = {
@@ -11,7 +11,7 @@ sample = {
     'predictedClass': 2
 }
 
-logprice_predicted = lm_HPRICE7.predict(sample).values[0]
+logprice_predicted = lm_HPRICE10.predict(sample).values[0]
 
 predicted_price = math.exp(logprice_predicted)
 price_formatted = "{:,}".format(round(predicted_price))
